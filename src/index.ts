@@ -179,4 +179,39 @@ export default class mcGenericMethods {
         });
     });
   }
+
+  public async getApplicationUserInformation(tssd: any, authToken: any) {
+    let self = this;
+    let userInfoUrl =
+      "https://" + tssd + ".auth.marketingcloudapis.com/v2/userinfo";
+    let headers = {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + authToken,
+    };
+
+    return new Promise<any>(async (resolve, reject) => {
+      await axios
+        .get(userInfoUrl, { headers: headers })
+        .then((response: any) => {
+          const getUserInfoResponse = {
+            appUserInfo: response.data,
+          };
+
+          return resolve(getUserInfoResponse);
+        })
+        .catch((error: any) => {
+          // error
+          let errorMsg = "Error getting User's Information.";
+          errorMsg += "\nMessage: " + error.message;
+          errorMsg +=
+            "\nStatus: " + error.response ? error.response.status : "<None>";
+          errorMsg +=
+            "\nResponse data: " + error.response
+              ? JSON.stringify(error.response.data)
+              : "<None>";
+
+          return reject(JSON.stringify(error.response.data));
+        });
+    });
+  }
 }
