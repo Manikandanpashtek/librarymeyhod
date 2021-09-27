@@ -210,7 +210,7 @@ export default class mcGenericMethods {
               ? JSON.stringify(error.response.data)
               : "<None>";
 
-          return reject(JSON.stringify(error.response.data));
+          return reject(errorMsg);
         });
     });
   }
